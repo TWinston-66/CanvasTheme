@@ -8,9 +8,12 @@ on:
 permissions:
   contents: write
 
+env:
+  WEB_EXT: web-ext@10.8.0
+
 jobs:
   build-and-release:
-    name: Build & Publish Release
+    name: Sign & Publish Release
     runs-on: ubuntu-latest
 
     steps:
@@ -22,25 +25,44 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Run Mozilla web-ext linter
+      # Mozilla rejects a version it has already signed, so fail fast if the
+      # tag (e.g. v1.0.7) doesn't match "version" in manifest.json.
+      - name: Check tag matches manifest version
         run: |
-          npx --yes web-ext lint --source-dir . --self-hosted
+          MANIFEST_VERSION=$(node -p "require('./manifest.json').version")
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          if [ "$MANIFEST_VERSION" != "$TAG_VERSION" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match manifest.json version $MANIFEST_VERSION"
+            exit 1
+          fi
 
-      - name: Package extension (.zip & .xpi)
+      - name: Run Mozilla web-ext linter
+        run: npx --yes "$WEB_EXT" lint --source-dir . --self-hosted
+
+      # Unlisted = signed for self-distribution; nothing is published on AMO.
+      - name: Sign extension with Mozilla
+        env:
+          AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
+          AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
         run: |
-          mkdir -p dist
-          npx --yes web-ext build --source-dir . --artifacts-dir dist --overwrite-dest --ignore-files ".github" ".git" ".gitignore" "README.md"
-          
-          # Create both .zip and .xpi distributions for ease of installation
-          ZIP_FILE=$(ls dist/*.zip | head -n 1)
-          cp "$ZIP_FILE" "dist/canvas-one-dark-pro-${{ github.ref_name }}.xpi"
-          mv "$ZIP_FILE" "dist/canvas-one-dark-pro-${{ github.ref_name }}.zip"
+          if [ -z "$AMO_JWT_ISSUER" ] || [ -z "$AMO_JWT_SECRET" ]; then
+            echo "::error::Missing AMO_JWT_ISSUER / AMO_JWT_SECRET repository secrets"
+            exit 1
+          fi
+          npx --yes "$WEB_EXT" sign \
+            --source-dir . \
+            --artifacts-dir dist \
+            --channel unlisted \
+            --api-key "$AMO_JWT_ISSUER" \
+            --api-secret "$AMO_JWT_SECRET" \
+            --ignore-files "README.md" "dist"
+
+          SIGNED=$(ls dist/*.xpi | head -n 1)
+          mv "$SIGNED" "dist/canvas-one-dark-pro-${GITHUB_REF_NAME}.xpi"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           name: "Canvas One Dark Pro ${{ github.ref_name }}"
           generate_release_notes: true
-          files: |
-            dist/canvas-one-dark-pro-*.zip
-            dist/canvas-one-dark-pro-*.xpi
+          files: dist/canvas-one-dark-pro-*.xpi

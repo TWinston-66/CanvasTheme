@@ -41,7 +41,7 @@ An authentic, developer-focused **One Dark Pro** theme for **Canvas LMS**, built
 1. In `about:config`, toggle `xpinstall.signatures.required` to `false`.
 2. Package the extension:
    ```bash
-   zip -r canvas-one-dark-pro.xpi manifest.json content/ icons/ popup/
+   zip -r canvas-one-dark-pro.xpi manifest.json content/ icons/ popup/ shared/
    ```
 3. Drag and drop the `.xpi` file directly into Firefox to install permanently.
 
@@ -52,9 +52,11 @@ An authentic, developer-focused **One Dark Pro** theme for **Canvas LMS**, built
 ```text
 CanvasTheme/
 ├── manifest.json         # Extension configuration (Manifest V2 for automatic permissions)
+├── shared/
+│   └── defaults.js       # Default settings shared by content script and popup
 ├── content/
-│   ├── theme.css         # Complete One Dark Pro design tokens and component overrides
-│   └── content.js        # Dynamic injection, card color harmonization, and DOM mutation guards
+│   ├── theme.css         # One Dark Pro design tokens and component overrides (CSS nesting)
+│   └── content.js        # Toggles theme classes on <html> and tags dashboard cards
 ├── popup/
 │   ├── popup.html        # Settings popup UI
 │   ├── popup.css         # Popup styles
@@ -79,9 +81,30 @@ Click the extension icon in your browser toolbar to toggle overrides on or off:
 
 ---
 
+### Adding a new toggle
+
+1. Add a key to [`shared/defaults.js`](shared/defaults.js).
+2. Add a row to [`popup/popup.html`](popup/popup.html) with `data-setting="<key>"`.
+3. Scope the rules in [`content/theme.css`](content/theme.css) under `&.ct-opt-<key> { ... }`.
+
+---
+
 ## 📦 Releases
 
-Download pre-packaged `.xpi` and `.zip` bundles from the [GitHub Releases](https://github.com/TWinston-66/CanvasTheme/releases) page.
+Download the Mozilla-signed `.xpi` from the [GitHub Releases](https://github.com/TWinston-66/CanvasTheme/releases) page and open it in Firefox (or `about:addons` → ⚙️ → **Install Add-on From File…**). Signed builds install permanently in regular Firefox.
+
+### Publishing a release
+
+Releases are signed automatically as an **unlisted** (self-distributed) add-on — nothing is published on addons.mozilla.org.
+
+One-time setup: create API keys at <https://addons.mozilla.org/developers/addon/api/key/> and add them as repository secrets `AMO_JWT_ISSUER` and `AMO_JWT_SECRET`.
+
+To release:
+1. Bump `"version"` in [`manifest.json`](manifest.json) (Mozilla won't sign the same version twice).
+2. Commit, then tag with the matching version and push:
+   ```bash
+   git tag v1.0.7 && git push origin v1.0.7
+   ```
 
 ---
 

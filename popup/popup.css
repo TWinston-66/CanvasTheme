@@ -7,8 +7,8 @@
   --surface2: #4b5263;
   --text: #abb2bf;
   --subtext: #5c6370;
-  --mauve: #61afef;
-  --lavender: #c678dd;
+  --accent: #61afef;
+  --accent-alt: #c678dd;
   --red: #e06c75;
 }
 
@@ -49,7 +49,7 @@ body {
 h1 {
   font-size: 15px;
   font-weight: 700;
-  color: var(--mauve);
+  color: var(--accent);
   letter-spacing: -0.2px;
 }
 
@@ -58,7 +58,7 @@ h1 {
   font-weight: 600;
   text-transform: uppercase;
   background-color: var(--surface0);
-  color: var(--lavender);
+  color: var(--accent-alt);
   padding: 2px 6px;
   border-radius: 4px;
   letter-spacing: 0.5px;
@@ -91,6 +91,7 @@ h1 {
 }
 
 .toggle-row {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -117,9 +118,18 @@ h1 {
   color: var(--text);
 }
 
-/* Switch styling */
+/* Switch styling: the checkbox is visually hidden but stays focusable */
 .toggle-row input {
-  display: none;
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+input:focus-visible + .slider {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .slider {
@@ -145,7 +155,7 @@ h1 {
 }
 
 input:checked + .slider {
-  background-color: var(--mauve);
+  background-color: var(--accent);
 }
 
 input:checked + .slider::after {

@@ -21,7 +21,7 @@
     <section class="control-group">
       <label class="toggle-row master-toggle">
         <span class="label-text">Enable Theme</span>
-        <input type="checkbox" id="toggle-enabled">
+        <input type="checkbox" data-setting="enabled">
         <span class="slider"></span>
       </label>
     </section>
@@ -31,25 +31,25 @@
     <div id="sub-toggles" class="control-group">
       <label class="toggle-row">
         <span class="label-text">Global Left Nav</span>
-        <input type="checkbox" id="toggle-nav">
+        <input type="checkbox" data-setting="nav">
         <span class="slider"></span>
       </label>
 
       <label class="toggle-row">
         <span class="label-text">Dashboard Cards</span>
-        <input type="checkbox" id="toggle-cards">
+        <input type="checkbox" data-setting="cards">
         <span class="slider"></span>
       </label>
 
       <label class="toggle-row">
         <span class="label-text">Sidebar & To-Do</span>
-        <input type="checkbox" id="toggle-sidebar">
+        <input type="checkbox" data-setting="sidebar">
         <span class="slider"></span>
       </label>
 
       <label class="toggle-row">
         <span class="label-text">Modules & Content</span>
-        <input type="checkbox" id="toggle-content">
+        <input type="checkbox" data-setting="content">
         <span class="slider"></span>
       </label>
     </div>
@@ -59,6 +59,7 @@
     </footer>
   </div>
 
+  <script src="../shared/defaults.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

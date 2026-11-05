@@ -1,11 +1,20 @@
 {
   "manifest_version": 2,
   "name": "Canvas One Dark Pro",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "An authentic One Dark Pro dark theme for Canvas LMS.",
   "browser_specific_settings": {
     "gecko": {
-      "id": "canvas-one-dark-pro@winston.dev"
+      "id": "canvas-one-dark-pro@winston.dev",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    },
+    "gecko_android": {
+      "strict_min_version": "142.0"
     }
   },
   "browser_action": {
@@ -32,12 +41,10 @@
         "content/theme.css"
       ],
       "js": [
+        "shared/defaults.js",
         "content/content.js"
       ],
       "run_at": "document_start"
     }
-  ],
-  "web_accessible_resources": [
-    "content/theme.css"
   ]
 }

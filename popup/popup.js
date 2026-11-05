@@ -1,71 +1,32 @@
 (() => {
-  const browserAPI = typeof browser !== 'undefined' ? browser : chrome;
+  'use strict';
 
-  const DEFAULT_SETTINGS = {
-    enabled: true,
-    nav: true,
-    cards: true,
-    sidebar: true,
-    content: true
-  };
+  const inputs = document.querySelectorAll('input[data-setting]');
+  const subToggles = document.getElementById('sub-toggles');
 
-  const elements = {
-    enabled: document.getElementById('toggle-enabled'),
-    nav: document.getElementById('toggle-nav'),
-    cards: document.getElementById('toggle-cards'),
-    sidebar: document.getElementById('toggle-sidebar'),
-    content: document.getElementById('toggle-content'),
-    subToggles: document.getElementById('sub-toggles'),
-    resetBtn: document.getElementById('reset-btn')
-  };
-
-  function updateSubTogglesState(isEnabled) {
-    if (isEnabled) {
-      elements.subToggles.classList.remove('disabled');
-    } else {
-      elements.subToggles.classList.add('disabled');
+  function render(settings) {
+    for (const input of inputs) {
+      input.checked = !!settings[input.dataset.setting];
     }
+    const enabled = !!settings.enabled;
+    subToggles.classList.toggle('disabled', !enabled);
+    subToggles.inert = !enabled; // also blocks keyboard focus, not just clicks
   }
 
-  function setFormValues(settings) {
-    elements.enabled.checked = !!settings.enabled;
-    elements.nav.checked = !!settings.nav;
-    elements.cards.checked = !!settings.cards;
-    elements.sidebar.checked = !!settings.sidebar;
-    elements.content.checked = !!settings.content;
+  browser.storage.local.get(CT_DEFAULTS).then(render, () => render(CT_DEFAULTS));
 
-    updateSubTogglesState(settings.enabled);
-  }
-
-  function saveCurrentValues() {
-    const newSettings = {
-      enabled: elements.enabled.checked,
-      nav: elements.nav.checked,
-      cards: elements.cards.checked,
-      sidebar: elements.sidebar.checked,
-      content: elements.content.checked
-    };
-
-    updateSubTogglesState(newSettings.enabled);
-    browserAPI.storage.local.set(newSettings);
-  }
-
-  // Load saved settings on popup open
-  browserAPI.storage.local.get(DEFAULT_SETTINGS).then((settings) => {
-    setFormValues(settings);
-  }).catch(() => {
-    setFormValues(DEFAULT_SETTINGS);
-  });
-
-  // Attach change listeners to all checkboxes
-  [elements.enabled, elements.nav, elements.cards, elements.sidebar, elements.content].forEach((input) => {
-    input.addEventListener('change', saveCurrentValues);
-  });
-
-  // Reset button
-  elements.resetBtn.addEventListener('click', () => {
-    browserAPI.storage.local.set(DEFAULT_SETTINGS).then(() => {
-      setFormValues(DEFAULT_SETTINGS);
+  for (const input of inputs) {
+    input.addEventListener('change', () => {
+      const key = input.dataset.setting;
+      if (key === 'enabled') {
+        subToggles.classList.toggle('disabled', !input.checked);
+        subToggles.inert = !input.checked;
+      }
+      browser.storage.local.set({ [key]: input.checked });
     });
+  }
+
+  document.getElementById('reset-btn').addEventListener('click', () => {
+    browser.storage.local.set(CT_DEFAULTS).then(() => render(CT_DEFAULTS));
   });
 })();
