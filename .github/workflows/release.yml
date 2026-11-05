@@ -1,0 +1,46 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build & Publish Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run Mozilla web-ext linter
+        run: |
+          npx --yes web-ext lint --source-dir . --self-hosted
+
+      - name: Package extension (.zip & .xpi)
+        run: |
+          mkdir -p dist
+          npx --yes web-ext build --source-dir . --artifacts-dir dist --overwrite-dest --ignore-files ".github" ".git" ".gitignore" "README.md"
+          
+          # Create both .zip and .xpi distributions for ease of installation
+          ZIP_FILE=$(ls dist/*.zip | head -n 1)
+          cp "$ZIP_FILE" "dist/canvas-one-dark-pro-${{ github.ref_name }}.xpi"
+          mv "$ZIP_FILE" "dist/canvas-one-dark-pro-${{ github.ref_name }}.zip"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Canvas One Dark Pro ${{ github.ref_name }}"
+          generate_release_notes: true
+          files: |
+            dist/canvas-one-dark-pro-*.zip
+            dist/canvas-one-dark-pro-*.xpi

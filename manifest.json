@@ -3,6 +3,11 @@
   "name": "Canvas One Dark Pro",
   "version": "1.0.6",
   "description": "An authentic One Dark Pro dark theme for Canvas LMS.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "canvas-one-dark-pro@winston.dev"
+    }
+  },
   "browser_action": {
     "default_title": "Canvas Theme Settings",
     "default_popup": "popup/popup.html",
