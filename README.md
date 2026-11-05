@@ -56,7 +56,7 @@ CanvasTheme/
 │   └── defaults.js       # Default settings shared by content script and popup
 ├── content/
 │   ├── theme.css         # One Dark Pro design tokens and component overrides (CSS nesting)
-│   └── content.js        # Toggles theme classes on <html> and tags dashboard cards
+│   └── content.js        # Toggles theme classes on <html>; tags dashboard cards and InstUI elements
 ├── popup/
 │   ├── popup.html        # Settings popup UI
 │   ├── popup.css         # Popup styles

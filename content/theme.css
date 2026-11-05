@@ -57,9 +57,9 @@ html.ct-theme-active > body {
 html.ct-theme-active.ct-opt-nav,
 html.ct-theme-active.ct-opt-nav > body {
   --ic-brand-global-nav-bg: var(--ct-crust);
-  --ic-brand-global-nav-ic-icon-svg-fill: var(--ct-subtext0);
+  --ic-brand-global-nav-ic-icon-svg-fill: var(--ct-subtext1);
   --ic-brand-global-nav-ic-icon-svg-fill--active: var(--ct-accent);
-  --ic-brand-global-nav-menu-item__text-color: var(--ct-subtext0);
+  --ic-brand-global-nav-menu-item__text-color: var(--ct-subtext1);
   --ic-brand-global-nav-menu-item__text-color--active: var(--ct-accent);
 }
 
@@ -194,7 +194,7 @@ html.ct-theme-active {
     }
 
     & .ic-app-header__menu-list-link {
-      color: var(--ct-subtext0) !important;
+      color: var(--ct-subtext1) !important;
       transition: background-color 0.15s ease, color 0.15s ease;
 
       &:hover {
@@ -213,6 +213,14 @@ html.ct-theme-active {
       background-color: var(--ct-mantle) !important;
       color: var(--ct-text) !important;
       border-right: 1px solid var(--ct-surface0) !important;
+    }
+
+    /* Unread count bubbles (e.g. Help, Inbox) */
+    & .menu-item__badge {
+      background-color: var(--ct-red) !important;
+      color: var(--ct-crust) !important;
+      font-weight: 700 !important;
+      box-shadow: 0 0 0 2px var(--ct-crust) !important;
     }
   }
 
@@ -270,8 +278,16 @@ html.ct-theme-active {
       }
     }
 
-    /* Cards without a cover image get a dual-tone gradient instead of Canvas's flat color */
-    & .ic-DashboardCard__header_hero[data-ct-plain] {
+    /* Canvas nests the color overlay (__header_hero) inside __header_image when
+       a card has a cover photo, and puts it directly under __header otherwise. */
+
+    /* Cover photo: drop Canvas's course-color tint so the photo stays clear */
+    & .ic-DashboardCard__header_image > .ic-DashboardCard__header_hero {
+      background: transparent !important;
+    }
+
+    /* No cover photo: dual-tone gradient instead of Canvas's flat color */
+    & .ic-DashboardCard__header > .ic-DashboardCard__header_hero {
       background: linear-gradient(
         135deg,
         color-mix(in srgb, var(--ct-card-accent) 40%, transparent) 0%,
@@ -299,10 +315,15 @@ html.ct-theme-active {
     & .ic-DashboardCard__header-title {
       color: var(--ct-blue) !important;
       font-weight: 600 !important;
+
+      /* Canvas sets the course color inline on this span; pastel colors read as white */
+      & span {
+        color: inherit !important;
+      }
     }
 
     & :is(.ic-DashboardCard__header-subtitle, .ic-DashboardCard__header-term) {
-      color: var(--ct-subtext0) !important;
+      color: var(--ct-subtext1) !important;
     }
 
     /* Card action footer & unread notification badges */
@@ -320,29 +341,46 @@ html.ct-theme-active {
       overflow: visible !important;
     }
 
-    & .ic-DashboardCard__action-badge {
-      color: var(--ct-subtext0) !important;
+    /* Each action is <a.__action><div.__action-layout><svg/><span.__action-badge/></div></a> */
+    & .ic-DashboardCard__action {
+      color: var(--ct-subtext1) !important;
+      text-decoration: none !important;
+
+      & svg {
+        fill: currentColor !important;
+        color: inherit !important;
+        width: 18px !important;
+        height: 18px !important;
+        transition: color 0.15s ease, transform 0.15s ease;
+      }
+
+      &:hover {
+        color: var(--ct-blue) !important;
+
+        & svg {
+          transform: translateY(-1px);
+        }
+      }
+    }
+
+    & .ic-DashboardCard__action-layout {
       position: relative !important;
       display: inline-flex !important;
       align-items: center !important;
-      justify-content: center !important;
       overflow: visible !important;
-      text-decoration: none !important;
+    }
+
+    /* Pin the unread bubble to the icon's top-right corner */
+    & .ic-DashboardCard__action-badge {
+      position: absolute !important;
+      top: -7px !important;
+      right: -11px !important;
+      background: transparent !important; /* Canvas paints its own circle here */
+      padding: 0 !important;
+      min-width: 0 !important;
+      height: auto !important;
       line-height: 1 !important;
-
-      & svg {
-        fill: var(--ct-subtext0) !important;
-        color: var(--ct-subtext0) !important;
-        width: 18px !important;
-        height: 18px !important;
-        transition: color 0.15s ease, fill 0.15s ease, transform 0.15s ease;
-      }
-
-      &:hover svg {
-        color: var(--ct-blue) !important;
-        fill: var(--ct-blue) !important;
-        transform: translateY(-1px);
-      }
+      pointer-events: none !important;
     }
 
     /* Hide screenreader text visually so counts don't render as "( 1 )" */
@@ -358,15 +396,10 @@ html.ct-theme-active {
       border: 0 !important;
     }
 
-    /* Notification pill on the top-right of the icon */
-    & .ic-DashboardCard__action-badge-count,
-    & .ic-DashboardCard__action-container .badge,
-    & .ic-DashboardCard__action-container [class*="unread"] {
-      position: absolute !important;
-      top: -6px !important;
-      right: -10px !important;
+    /* Notification pill */
+    & .ic-DashboardCard__action-badge :is(.unread_count, .ic-DashboardCard__action-badge-count) {
       background-color: var(--ct-red) !important;
-      color: #ffffff !important;
+      color: var(--ct-crust) !important;
       font-size: 10px !important;
       font-weight: 700 !important;
       min-width: 16px !important;
@@ -394,7 +427,7 @@ html.ct-theme-active {
       background-color: var(--ct-base) !important;
     }
 
-    & :is(#right-side h2, .Sidebar__TodoListContainer h2, .ic-Dashboard-sidebar h2) {
+    & :is(#right-side, .Sidebar__TodoListContainer, .ic-Dashboard-sidebar) :is(h2, .h2) {
       color: var(--ct-accent) !important;
       border-bottom: 1px solid var(--ct-surface0) !important;
       padding-bottom: 4px;
@@ -417,8 +450,13 @@ html.ct-theme-active {
       color: var(--ct-blue) !important;
     }
 
-    & :is(.todo-details, .event-details, .todo-date) {
-      color: var(--ct-subtext0) !important;
+    & :is(.todo-details, .event-details, .todo-date, .ToDoSidebarItem__Info) {
+      color: var(--ct-subtext1) !important;
+    }
+
+    /* Item titles inside the details blocks */
+    & :is(.todo-details__title, .event-details__title) {
+      color: var(--ct-text) !important;
     }
 
     /* Remove Canvas's white gradient text-fade pseudo-elements on To-Do / Coming Up items */
@@ -444,7 +482,7 @@ html.ct-theme-active {
     ) {
       background: transparent !important;
       border-color: transparent !important;
-      color: var(--ct-subtext0) !important;
+      color: var(--ct-subtext1) !important;
       box-shadow: none !important;
     }
 
@@ -589,7 +627,7 @@ html.ct-theme-active {
     }
 
     & :is(.ig-details, .module-item-status, .type_details) {
-      color: var(--ct-subtext0) !important;
+      color: var(--ct-subtext1) !important;
     }
 
     & :is(.ig-type-icon, .ig-row svg, .context_module_item svg) {
@@ -612,6 +650,10 @@ html.ct-theme-active {
       border: 1px solid var(--ct-surface0) !important;
       color: var(--ct-text) !important;
     }
+    /* Canvas paints rows/cells white (settings, course list); leave course-authored tables alone */
+    & :is(table, .table) :is(thead, tbody, tr, td):not(.user_content *) {
+      background-color: transparent !important;
+    }
 
     /* Discussion / announcement posts */
     & :is(.discussion-topic, .discussion_entry, .entry, .discussion-reply-box) {
@@ -626,5 +668,92 @@ html.ct-theme-active {
       background-color: var(--ct-base) !important;
       color: var(--ct-text) !important;
     }
+  }
+
+  /* ------------------------------------------------------------------------
+     7. Shared UI: InstUI components, calendar, discussions, page chrome
+     ------------------------------------------------------------------------ */
+
+  /* InstUI elements tagged by content.js (their class names are hashed) */
+  & [data-ct-line] {
+    border-color: var(--ct-surface0) !important;
+  }
+  & [data-ct-tone="light"] {
+    background-color: var(--ct-mantle) !important;
+    border-color: var(--ct-surface1) !important;
+  }
+  & [class*="baseButton__content"][data-ct-tone="light"] {
+    background-color: var(--ct-surface0) !important;
+  }
+  & button:hover > [class*="baseButton__content"][data-ct-tone="light"] {
+    background-color: var(--ct-surface1) !important;
+  }
+  & [data-ct-ink] {
+    color: var(--ct-subtext1) !important;
+  }
+  & :is([data-ct-tone="light"][data-ct-ink], [data-ct-tone="light"] [data-ct-ink]) {
+    color: var(--ct-text) !important;
+  }
+
+  /* InstUI checkboxes: dark box while unchecked; Canvas's accent fill when checked */
+  & input:not(:checked) + label [class*="checkboxFacade__facade"] {
+    background-color: var(--ct-mantle) !important;
+    border-color: var(--ct-surface2) !important;
+  }
+
+  /* Page chrome */
+  & .ic-app-nav-toggle-and-crumbs {
+    border-bottom-color: var(--ct-surface0) !important;
+  }
+  & .ic-app-footer {
+    background-color: var(--ct-base) !important;
+    border-top-color: var(--ct-surface0) !important;
+  }
+  & :is(label, .ic-Label, legend) {
+    color: var(--ct-text) !important;
+  }
+  /* Buttons styled as links use Canvas's dark link blue */
+  & :is(.btn-link, .Button--link, #external_feed) {
+    color: var(--ct-blue) !important;
+  }
+  & label > span:not([class]) {
+    color: inherit !important;
+  }
+
+  /* Announcement / discussion list rows draw their dividers with box-shadow */
+  & .ic-item-row {
+    box-shadow: 0 -1px 0 0 var(--ct-surface0), inset 0 -1px 0 0 var(--ct-surface0) !important;
+  }
+
+  /* Discussions list panels */
+  & :is([class*="discussions-v2__wrapper"], .discussions-v2__container-image) {
+    background-color: var(--ct-mantle) !important;
+    border-color: var(--ct-surface0) !important;
+  }
+
+  /* Grades: per-assignment score details buttons */
+  & .toggle_score_details_link {
+    background-color: var(--ct-surface0) !important;
+    border-color: var(--ct-surface1) !important;
+  }
+
+  /* Calendar (FullCalendar) */
+  & .fc-unthemed :is(td, th, thead, tbody, .fc-row, .fc-divider, .fc-popover, .fc-toolbar) {
+    border-color: var(--ct-surface0) !important;
+  }
+  & :is(.fc-body, .fc-unthemed td.fc-day) {
+    background-color: transparent !important;
+  }
+  & :is(#minical, #calendar-list-holder, .fc-unthemed .fc-popover) {
+    background-color: var(--ct-mantle) !important;
+    border-color: var(--ct-surface0) !important;
+    color: var(--ct-text) !important;
+  }
+  & .fc-unthemed :is(td.fc-today, .fc-day-top.fc-today) {
+    background-color: var(--ct-surface0) !important;
+  }
+  /* Event chips: dark face, keep Canvas's course-color border */
+  & .fc-event {
+    background-color: var(--ct-mantle) !important;
   }
 }

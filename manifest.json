@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Canvas One Dark Pro",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "An authentic One Dark Pro dark theme for Canvas LMS.",
   "browser_specific_settings": {
     "gecko": {
