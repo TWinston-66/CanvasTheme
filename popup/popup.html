@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canvas Theme Settings</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="title-group">
+        <h1>Canvas One Dark</h1>
+        <span class="badge">Pro</span>
+      </div>
+      <p class="subtitle">One Dark Pro Theme for Canvas LMS</p>
+    </header>
+
+    <div class="divider"></div>
+
+    <section class="control-group">
+      <label class="toggle-row master-toggle">
+        <span class="label-text">Enable Theme</span>
+        <input type="checkbox" id="toggle-enabled">
+        <span class="slider"></span>
+      </label>
+    </section>
+
+    <div class="section-title">Component Overrides</div>
+    
+    <div id="sub-toggles" class="control-group">
+      <label class="toggle-row">
+        <span class="label-text">Global Left Nav</span>
+        <input type="checkbox" id="toggle-nav">
+        <span class="slider"></span>
+      </label>
+
+      <label class="toggle-row">
+        <span class="label-text">Dashboard Cards</span>
+        <input type="checkbox" id="toggle-cards">
+        <span class="slider"></span>
+      </label>
+
+      <label class="toggle-row">
+        <span class="label-text">Sidebar & To-Do</span>
+        <input type="checkbox" id="toggle-sidebar">
+        <span class="slider"></span>
+      </label>
+
+      <label class="toggle-row">
+        <span class="label-text">Modules & Content</span>
+        <input type="checkbox" id="toggle-content">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <footer class="footer">
+      <button id="reset-btn" type="button" class="reset-button">Reset All to Default</button>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

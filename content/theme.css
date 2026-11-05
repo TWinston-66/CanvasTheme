@@ -1,0 +1,747 @@
+/* ==========================================================================
+   Canvas One Dark Pro Theme (Zed / Atom One Dark Palette)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design Tokens & Root Variables
+   -------------------------------------------------------------------------- */
+:is(html, body).ct-theme-active,
+:is(html, body)[data-ct-active="true"] {
+  /* One Dark Pro Core Backgrounds */
+  --ct-base:      #282c34; /* Main editor canvas */
+  --ct-mantle:    #21252b; /* Sidebar / Cards background */
+  --ct-crust:     #1e2227; /* Darkest layer / footers / titlebar */
+  --ct-surface0:  #2c313a; /* Subtle dividers & borders */
+  --ct-surface1:  #3a3f4b; /* Hover surfaces */
+  --ct-surface2:  #4b5263; /* Active states & highlights */
+
+  /* One Dark Pro Text & Foreground */
+  --ct-text:      #abb2bf; /* Primary readable foreground */
+  --ct-subtext1:  #828997; /* Secondary foreground */
+  --ct-subtext0:  #5c6370; /* Muted comments / meta info */
+  --ct-overlay2:  #4b5263;
+  --ct-overlay1:  #3e4451;
+  --ct-overlay0:  #2c313a;
+
+  /* One Dark Pro Syntax Accents */
+  --ct-blue:      #61afef; /* Primary action & function blue */
+  --ct-cyan:      #56b6c2; /* Variable cyan / teal */
+  --ct-green:     #98c379; /* String green */
+  --ct-yellow:    #e5c07b; /* Class yellow / warm gold */
+  --ct-orange:    #d19a66; /* Parameter orange */
+  --ct-red:       #e06c75; /* Keyword coral red / notifications */
+  --ct-purple:    #c678dd; /* Constant magenta purple */
+  --ct-mauve:     #61afef; /* Main interactive accent -> One Dark Blue */
+  --ct-lavender:  #c678dd; /* Secondary accent -> One Dark Purple */
+  --ct-rosewater: #e5c07b; /* Accent highlight -> One Dark Gold */
+  --ct-peach:     #d19a66;
+  --ct-maroon:    #e06c75;
+  --ct-flamingo:  #e06c75;
+  --ct-pink:      #c678dd;
+  --ct-teal:      #56b6c2;
+  --ct-sky:       #56b6c2;
+  --ct-sapphire:  #61afef;
+
+  /* Canvas native variables override */
+  --ic-brand-primary: var(--ct-blue);
+  --ic-brand-font-color-dark: var(--ct-text);
+  --ic-link-color: var(--ct-blue);
+  --ic-link-color-hover: var(--ct-yellow);
+  --ic-brand-button--primary-bgd: var(--ct-blue);
+  --ic-brand-button--primary-text: #1e2227;
+
+  scrollbar-color: var(--ct-surface1) var(--ct-base);
+}
+
+/* Selection */
+:is(html, body).ct-theme-active ::selection {
+  background: #3e4451 !important;
+  color: #abb2bf !important;
+}
+
+/* Scrollbars */
+:is(html, body).ct-theme-active ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+:is(html, body).ct-theme-active ::-webkit-scrollbar-track {
+  background: var(--ct-base);
+}
+:is(html, body).ct-theme-active ::-webkit-scrollbar-thumb {
+  background: var(--ct-surface1);
+  border-radius: 6px;
+  border: 2px solid var(--ct-base);
+}
+:is(html, body).ct-theme-active ::-webkit-scrollbar-thumb:hover {
+  background: var(--ct-surface2);
+}
+
+/* --------------------------------------------------------------------------
+   2. Comprehensive Page Layout & Shell Overrides
+   -------------------------------------------------------------------------- */
+:is(html, body).ct-theme-active,
+:is(html, body).ct-theme-active body,
+:is(html, body).ct-theme-active #application,
+:is(html, body).ct-theme-active #wrapper,
+:is(html, body).ct-theme-active #main,
+:is(html, body).ct-theme-active #content,
+:is(html, body).ct-theme-active #content-wrapper,
+:is(html, body).ct-theme-active .ic-Layout-wrapper,
+:is(html, body).ct-theme-active .ic-Layout-columns,
+:is(html, body).ct-theme-active .ic-Layout-contentWrapper,
+:is(html, body).ct-theme-active .ic-Layout-contentMain,
+:is(html, body).ct-theme-active .ic-app-mainContent,
+:is(html, body).ct-theme-active .header-bar,
+:is(html, body).ct-theme-active #course_home_content,
+:is(html, body).ct-theme-active .course-layout,
+:is(html, body).ct-theme-active .item-group-container,
+:is(html, body).ct-theme-active .pad-box-mega,
+:is(html, body).ct-theme-active .grid-row {
+  background-color: var(--ct-base) !important;
+  color: var(--ct-text) !important;
+}
+
+/* Headings */
+:is(html, body).ct-theme-active :is(h1, h2, h3, h4, h5, h6, .course-title) {
+  color: var(--ct-text) !important;
+}
+
+/* Links */
+:is(html, body).ct-theme-active a:not(.btn):not(.Button):not(.ic-DashboardCard__link):not(.ui-corner-all) {
+  color: var(--ct-blue) !important;
+  transition: color 0.15s ease;
+}
+:is(html, body).ct-theme-active a:not(.btn):not(.Button):not(.ic-DashboardCard__link):not(.ui-corner-all):hover {
+  color: var(--ct-lavender) !important;
+}
+
+/* Form Inputs & Selects */
+:is(html, body).ct-theme-active :is(input[type="text"], input[type="search"], input[type="email"], input[type="password"], input[type="number"], textarea, select, .ic-Input) {
+  background-color: var(--ct-mantle) !important;
+  color: var(--ct-text) !important;
+  border: 1px solid var(--ct-surface1) !important;
+  border-radius: 6px !important;
+  outline: none;
+}
+:is(html, body).ct-theme-active :is(input:focus, textarea:focus, select:focus) {
+  border-color: var(--ct-mauve) !important;
+  box-shadow: 0 0 0 2px rgba(203, 166, 247, 0.25) !important;
+}
+
+/* Buttons */
+:is(html, body).ct-theme-active :is(.btn, .Button, button.ui-button):not(.Button--primary):not(.btn-primary) {
+  background-color: var(--ct-surface0) !important;
+  color: var(--ct-text) !important;
+  border: 1px solid var(--ct-surface1) !important;
+  border-radius: 6px !important;
+  transition: all 0.15s ease-in-out;
+}
+:is(html, body).ct-theme-active :is(.btn, .Button, button.ui-button):not(.Button--primary):not(.btn-primary):hover {
+  background-color: var(--ct-surface1) !important;
+  border-color: var(--ct-surface2) !important;
+  color: var(--ct-rosewater) !important;
+}
+
+:is(html, body).ct-theme-active :is(.btn-primary, .Button--primary, button.Button--primary) {
+  background-color: var(--ct-mauve) !important;
+  color: var(--ct-crust) !important;
+  border: none !important;
+  font-weight: 600 !important;
+}
+:is(html, body).ct-theme-active :is(.btn-primary, .Button--primary):hover {
+  background-color: var(--ct-lavender) !important;
+  color: var(--ct-crust) !important;
+}
+
+/* Dialogs, Popovers & Trays */
+:is(html, body).ct-theme-active :is(.ui-dialog, .ui-widget-content, div[role="dialog"], .tray-with-space-for-global-nav, .ui-widget.ui-widget-content) {
+  background-color: var(--ct-mantle) !important;
+  color: var(--ct-text) !important;
+  border: 1px solid var(--ct-surface0) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. Global Navigation Bar (#header / .ic-app-header)
+   -------------------------------------------------------------------------- */
+:is(html, body).ct-theme-active.ct-opt-nav,
+:is(html, body).ct-theme-active[data-ct-nav="true"] {
+  --ic-brand-global-nav-bg: var(--ct-crust);
+  --ic-brand-global-nav-ic-icon-svg-fill: var(--ct-subtext0);
+  --ic-brand-global-nav-ic-icon-svg-fill--active: var(--ct-mauve);
+  --ic-brand-global-nav-menu-item__text-color: var(--ct-subtext0);
+  --ic-brand-global-nav-menu-item__text-color--active: var(--ct-mauve);
+}
+
+:is(html, body).ct-theme-active.ct-opt-nav :is(#header, .ic-app-header, .ic-app-header__main-navigation),
+:is(html, body).ct-theme-active[data-ct-nav="true"] :is(#header, .ic-app-header, .ic-app-header__main-navigation) {
+  background-color: var(--ct-crust) !important;
+  border-right: 1px solid var(--ct-surface0) !important;
+}
+
+:is(html, body).ct-theme-active.ct-opt-nav .ic-app-header__menu-list-link,
+:is(html, body).ct-theme-active[data-ct-nav="true"] .ic-app-header__menu-list-link {
+  color: var(--ct-subtext0) !important;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+:is(html, body).ct-theme-active.ct-opt-nav .ic-app-header__menu-list-link:hover,
+:is(html, body).ct-theme-active[data-ct-nav="true"] .ic-app-header__menu-list-link:hover {
+  background-color: var(--ct-mantle) !important;
+  color: var(--ct-rosewater) !important;
+}
+
+:is(html, body).ct-theme-active.ct-opt-nav .ic-app-header__menu-list-item--active .ic-app-header__menu-list-link,
+:is(html, body).ct-theme-active[data-ct-nav="true"] .ic-app-header__menu-list-item--active .ic-app-header__menu-list-link {
+  background-color: var(--ct-base) !important;
+  color: var(--ct-mauve) !important;
+  border-left: 3px solid var(--ct-mauve) !important;
+}
+
+:is(html, body).ct-theme-active.ct-opt-nav :is(.ic-NavMenu__tray, .ReactTray__Content),
+:is(html, body).ct-theme-active[data-ct-nav="true"] :is(.ic-NavMenu__tray, .ReactTray__Content) {
+  background-color: var(--ct-mantle) !important;
+  color: var(--ct-text) !important;
+  border-right: 1px solid var(--ct-surface0) !important;
+}
+
+/* --------------------------------------------------------------------------
+   4. Dashboard Cards (.ic-DashboardCard) & Dashboard Banner
+   -------------------------------------------------------------------------- */
+/* Dashboard Header Banner */
+:is(html, body).ct-theme-active :is(
+  .ic-Dashboard-header,
+  .ic-Dashboard-header__layout,
+  #dashboard_header_container,
+  .header-bar,
+  .ic-Dashboard-header__actions,
+  div[data-automation="dashboard header"]
+) {
+  background-color: var(--ct-base) !important;
+  background: var(--ct-base) !important;
+  border-bottom: 1px solid var(--ct-surface0) !important;
+  box-shadow: none !important;
+}
+
+:is(html, body).ct-theme-active :is(.ic-Dashboard-header__title, .ic-Dashboard-header h1) {
+  color: var(--ct-mauve) !important;
+}
+
+:is(html, body).ct-theme-active .ic-Dashboard-header__actions :is(button, .Button, .Button--icon-action) {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  color: var(--ct-subtext0) !important;
+  box-shadow: none !important;
+}
+
+:is(html, body).ct-theme-active .ic-Dashboard-header__actions :is(button, .Button, .Button--icon-action):hover {
+  background-color: var(--ct-surface0) !important;
+  color: var(--ct-mauve) !important;
+}
+
+/* Dashboard Cards */
+:is(html, body).ct-theme-active.ct-opt-cards .ic-DashboardCard,
+:is(html, body).ct-theme-active[data-ct-cards="true"] .ic-DashboardCard {
+  background-color: var(--ct-mantle) !important;
+  border: 1px solid var(--ct-surface0) !important;
+  border-top: 2px solid var(--ct-card-accent, var(--ct-mauve)) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  overflow: hidden;
+}
+
+:is(html, body).ct-theme-active.ct-opt-cards .ic-DashboardCard:hover,
+:is(html, body).ct-theme-active[data-ct-cards="true"] .ic-DashboardCard:hover {
+  transform: translateY(-3px);
+  border-color: var(--ct-surface2) !important;
+  border-top-color: var(--ct-card-accent, var(--ct-lavender)) !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55) !important;
+}
+
+/* Card Header Hero (Images and Color Covers) */
+:is(html, body).ct-theme-active.ct-opt-cards .ic-DashboardCard__header_hero,
+:is(html, body).ct-theme-active[data-ct-cards="true"] .ic-DashboardCard__header_hero {
+  position: relative !important;
+  overflow: hidden !important;
+  background-color: var(--ct-crust) !important;
+  min-height: 140px;
+}
+
+/* Refined bottom vignette fade so cover images blend seamlessly into One Dark mantle card body */
+:is(html, body).ct-theme-active.ct-opt-cards .ic-DashboardCard__header_hero::after,
+:is(html, body).ct-theme-active[data-ct-cards="true"] .ic-DashboardCard__header_hero::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: linear-gradient(
+    180deg,
+    rgba(33, 37, 43, 0.02) 0%,
+    rgba(33, 37, 43, 0.25) 45%,
+    rgba(33, 37, 43, 0.85) 85%,
+    #21252b 100%
+  ) !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
+  transition: opacity 0.2s ease;
+}
+
+/* Crisp cover images with subtle high-contrast punch */
+:is(html, body).ct-theme-active.ct-opt-cards :is(.ic-DashboardCard__header_image, .ic-DashboardCard__header_hero img),
+:is(html, body).ct-theme-active[data-ct-cards="true"] :is(.ic-DashboardCard__header_image, .ic-DashboardCard__header_hero img) {
+  filter: brightness(0.92) contrast(1.04) saturate(1.02) !important;
+  transition: filter 0.2s ease, transform 0.25s ease !important;
+}
+
+:is(html, body).ct-theme-active.ct-opt-cards .ic-DashboardCard:hover :is(.ic-DashboardCard__header_image, .ic-DashboardCard__header_hero img),
+:is(html, body).ct-theme-active[data-ct-cards="true"] .ic-DashboardCard:hover :is(.ic-DashboardCard__header_image, .ic-DashboardCard__header_hero img) {
+  filter: brightness(1.0) contrast(1.06) saturate(1.05) !important;
+  transform: scale(1.03);
+}
+
+:is(html, body).ct-theme-active.ct-opt-cards .ic-DashboardCard__header_content,
+:is(html, body).ct-theme-active[data-ct-cards="true"] .ic-DashboardCard__header_content {
+  background-color: var(--ct-mantle) !important;
+  position: relative;
+  z-index: 3;
+}
+
+:is(html, body).ct-theme-active.ct-opt-cards .ic-DashboardCard__header-title,
+:is(html, body).ct-theme-active[data-ct-cards="true"] .ic-DashboardCard__header-title {
+  color: var(--ct-blue) !important;
+  font-weight: 600 !important;
+}
+
+:is(html, body).ct-theme-active.ct-opt-cards :is(.ic-DashboardCard__header-subtitle, .ic-DashboardCard__header-term),
+:is(html, body).ct-theme-active[data-ct-cards="true"] :is(.ic-DashboardCard__header-subtitle, .ic-DashboardCard__header-term) {
+  color: var(--ct-subtext0) !important;
+}
+
+/* Card Action Footer & Unread Notification Badges */
+:is(html, body).ct-theme-active.ct-opt-cards .ic-DashboardCard__action-container,
+:is(html, body).ct-theme-active[data-ct-cards="true"] .ic-DashboardCard__action-container {
+  background-color: var(--ct-crust) !important;
+  border-top: 1px solid var(--ct-surface0) !important;
+  padding: 12px 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 18px !important;
+  min-height: 48px !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  z-index: 4 !important;
+  overflow: visible !important;
+}
+
+:is(html, body).ct-theme-active.ct-opt-cards .ic-DashboardCard__action-badge,
+:is(html, body).ct-theme-active[data-ct-cards="true"] .ic-DashboardCard__action-badge {
+  color: var(--ct-subtext0) !important;
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;
+  text-decoration: none !important;
+  line-height: 1 !important;
+}
+
+:is(html, body).ct-theme-active.ct-opt-cards .ic-DashboardCard__action-badge svg,
+:is(html, body).ct-theme-active[data-ct-cards="true"] .ic-DashboardCard__action-badge svg {
+  fill: var(--ct-subtext0) !important;
+  color: var(--ct-subtext0) !important;
+  width: 18px !important;
+  height: 18px !important;
+  transition: color 0.15s ease, fill 0.15s ease, transform 0.15s ease;
+}
+
+:is(html, body).ct-theme-active.ct-opt-cards .ic-DashboardCard__action-badge:hover svg,
+:is(html, body).ct-theme-active[data-ct-cards="true"] .ic-DashboardCard__action-badge:hover svg {
+  color: var(--ct-blue) !important;
+  fill: var(--ct-blue) !important;
+  transform: translateY(-1px);
+}
+
+/* Hide screenreader accessibility parentheses so numbers are not segmented like ( 1 ) */
+.ic-DashboardCard__action-container .screenreader-only,
+.ic-DashboardCard__action-container [class*="screenreader"],
+.ic-DashboardCard__action-container .ui-a11y {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Clean, crisp notification badge pill positioned on the top-right of the icon */
+:is(html, body).ct-theme-active.ct-opt-cards .ic-DashboardCard__action-badge-count,
+:is(html, body).ct-theme-active.ct-opt-cards .ic-DashboardCard__action-container .badge,
+:is(html, body).ct-theme-active.ct-opt-cards .ic-DashboardCard__action-container [class*="unread"],
+:is(html, body).ct-theme-active[data-ct-cards="true"] .ic-DashboardCard__action-badge-count,
+:is(html, body).ct-theme-active[data-ct-cards="true"] .ic-DashboardCard__action-container .badge,
+:is(html, body).ct-theme-active[data-ct-cards="true"] .ic-DashboardCard__action-container [class*="unread"] {
+  position: absolute !important;
+  top: -6px !important;
+  right: -10px !important;
+  background-color: var(--ct-red) !important; /* One Dark coral red #e06c75 */
+  color: #ffffff !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  min-width: 16px !important;
+  height: 16px !important;
+  line-height: 16px !important;
+  text-align: center !important;
+  border-radius: 999px !important;
+  padding: 0 4px !important;
+  box-shadow: 0 0 0 2px var(--ct-crust) !important;
+  box-sizing: border-box !important;
+  z-index: 10 !important;
+  pointer-events: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* --------------------------------------------------------------------------
+   5. Right Sidebar & To-Do List
+   -------------------------------------------------------------------------- */
+:is(html, body).ct-theme-active.ct-opt-sidebar :is(#right-side, .ic-app-mainContent__secondary, .Sidebar__TodoListContainer, .ic-Dashboard-sidebar),
+:is(html, body).ct-theme-active[data-ct-sidebar="true"] :is(#right-side, .ic-app-mainContent__secondary, .Sidebar__TodoListContainer, .ic-Dashboard-sidebar) {
+  color: var(--ct-text) !important;
+  background-color: var(--ct-base) !important;
+}
+
+:is(html, body).ct-theme-active.ct-opt-sidebar :is(#right-side h2, .Sidebar__TodoListContainer h2, .ic-Dashboard-sidebar h2),
+:is(html, body).ct-theme-active[data-ct-sidebar="true"] :is(#right-side h2, .Sidebar__TodoListContainer h2, .ic-Dashboard-sidebar h2) {
+  color: var(--ct-mauve) !important;
+  border-bottom: 1px solid var(--ct-surface0) !important;
+  padding-bottom: 4px;
+}
+
+:is(html, body).ct-theme-active.ct-opt-sidebar :is(.todo-list-item, .events_list .event, .recent_feedback_item),
+:is(html, body).ct-theme-active[data-ct-sidebar="true"] :is(.todo-list-item, .events_list .event, .recent_feedback_item) {
+  border-bottom: 1px solid var(--ct-surface0) !important;
+  transition: background-color 0.15s ease;
+  padding: 6px 4px;
+  border-radius: 6px;
+  position: relative;
+  background-color: transparent !important;
+}
+
+:is(html, body).ct-theme-active.ct-opt-sidebar :is(.todo-list-item:hover, .events_list .event:hover, .recent_feedback_item:hover),
+:is(html, body).ct-theme-active[data-ct-sidebar="true"] :is(.todo-list-item:hover, .events_list .event:hover, .recent_feedback_item:hover) {
+  background-color: var(--ct-surface0) !important;
+}
+
+:is(html, body).ct-theme-active.ct-opt-sidebar :is(.todo-list-item a, .events_list a),
+:is(html, body).ct-theme-active[data-ct-sidebar="true"] :is(.todo-list-item a, .events_list a) {
+  color: var(--ct-blue) !important;
+}
+
+:is(html, body).ct-theme-active.ct-opt-sidebar :is(.todo-details, .event-details, .todo-date),
+:is(html, body).ct-theme-active[data-ct-sidebar="true"] :is(.todo-details, .event-details, .todo-date) {
+  color: var(--ct-subtext0) !important;
+}
+
+/* Completely remove Canvas's harsh white gradient text-fade pseudo-elements on To-Do / Coming Up items */
+:is(html, body).ct-theme-active.ct-opt-sidebar :is(#right-side, .ic-app-mainContent__secondary, .Sidebar__TodoListContainer, .ic-Dashboard-sidebar) :is(
+  .todo-details,
+  .event-details,
+  .todo-list-item,
+  .events_list .event,
+  .recent_feedback_item,
+  li,
+  div,
+  a
+)::after,
+:is(html, body).ct-theme-active.ct-opt-sidebar :is(#right-side, .ic-app-mainContent__secondary, .Sidebar__TodoListContainer, .ic-Dashboard-sidebar) :is(
+  .todo-details,
+  .event-details,
+  .todo-list-item,
+  .events_list .event,
+  .recent_feedback_item,
+  li,
+  div,
+  a
+)::before,
+:is(html, body).ct-theme-active[data-ct-sidebar="true"] :is(#right-side, .ic-app-mainContent__secondary, .Sidebar__TodoListContainer, .ic-Dashboard-sidebar) :is(
+  .todo-details,
+  .event-details,
+  .todo-list-item,
+  .events_list .event,
+  .recent_feedback_item,
+  li,
+  div,
+  a
+)::after,
+:is(html, body).ct-theme-active[data-ct-sidebar="true"] :is(#right-side, .ic-app-mainContent__secondary, .Sidebar__TodoListContainer, .ic-Dashboard-sidebar) :is(
+  .todo-details,
+  .event-details,
+  .todo-list-item,
+  .events_list .event,
+  .recent_feedback_item,
+  li,
+  div,
+  a
+)::before {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+  background-image: none !important;
+}
+
+/* Remove white background or gradient on the 'X' dismiss buttons and actions containers */
+:is(html, body).ct-theme-active.ct-opt-sidebar :is(#right-side, .ic-app-mainContent__secondary, .Sidebar__TodoListContainer, .ic-Dashboard-sidebar) :is(
+  button,
+  .Button,
+  .Button--icon-action,
+  .disable_item_link,
+  [class*="ignore"],
+  [class*="close"],
+  [class*="badge"],
+  [class*="actions"],
+  [class*="gradient"],
+  [class*="fade"]
+),
+:is(html, body).ct-theme-active[data-ct-sidebar="true"] :is(#right-side, .ic-app-mainContent__secondary, .Sidebar__TodoListContainer, .ic-Dashboard-sidebar) :is(
+  button,
+  .Button,
+  .Button--icon-action,
+  .disable_item_link,
+  [class*="ignore"],
+  [class*="close"],
+  [class*="badge"],
+  [class*="actions"],
+  [class*="gradient"],
+  [class*="fade"]
+) {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  color: var(--ct-subtext0) !important;
+  box-shadow: none !important;
+}
+
+:is(html, body).ct-theme-active.ct-opt-sidebar :is(#right-side, .ic-app-mainContent__secondary, .Sidebar__TodoListContainer, .ic-Dashboard-sidebar) :is(
+  button,
+  .Button,
+  .Button--icon-action,
+  .disable_item_link
+):hover,
+:is(html, body).ct-theme-active[data-ct-sidebar="true"] :is(#right-side, .ic-app-mainContent__secondary, .Sidebar__TodoListContainer, .ic-Dashboard-sidebar) :is(
+  button,
+  .Button,
+  .Button--icon-action,
+  .disable_item_link
+):hover {
+  color: var(--ct-red) !important;
+  background-color: var(--ct-surface1) !important;
+}
+
+/* --------------------------------------------------------------------------
+   6. Course Pages, Modules, Assignments & Content
+   -------------------------------------------------------------------------- */
+/* Breadcrumbs & Layout */
+:is(html, body).ct-theme-active.ct-opt-content :is(.ic-app-crumbs, .breadcrumb, #breadcrumbs),
+:is(html, body).ct-theme-active[data-ct-content="true"] :is(.ic-app-crumbs, .breadcrumb, #breadcrumbs) {
+  background-color: transparent !important;
+  border-bottom: 1px solid var(--ct-surface0) !important;
+}
+:is(html, body).ct-theme-active.ct-opt-content :is(.breadcrumb a, #breadcrumbs a),
+:is(html, body).ct-theme-active[data-ct-content="true"] :is(.breadcrumb a, #breadcrumbs a) {
+  color: var(--ct-blue) !important;
+}
+
+/* Course Left-Side Nav */
+:is(html, body).ct-theme-active.ct-opt-content :is(#left-side, #left-side nav, .ic-app-course-menu),
+:is(html, body).ct-theme-active[data-ct-content="true"] :is(#left-side, #left-side nav, .ic-app-course-menu) {
+  background-color: var(--ct-base) !important;
+}
+
+:is(html, body).ct-theme-active.ct-opt-content #section-tabs li.section a,
+:is(html, body).ct-theme-active[data-ct-content="true"] #section-tabs li.section a {
+  color: var(--ct-subtext1) !important;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+:is(html, body).ct-theme-active.ct-opt-content #section-tabs li.section a:hover,
+:is(html, body).ct-theme-active[data-ct-content="true"] #section-tabs li.section a:hover {
+  background-color: var(--ct-surface0) !important;
+  color: var(--ct-yellow) !important;
+}
+:is(html, body).ct-theme-active.ct-opt-content #section-tabs li.section a.active,
+:is(html, body).ct-theme-active[data-ct-content="true"] #section-tabs li.section a.active {
+  background-color: var(--ct-mantle) !important;
+  color: var(--ct-blue) !important;
+  border-left: 3px solid var(--ct-blue) !important;
+  font-weight: 600;
+}
+
+/* Outer module containers must NEVER have background or borders (prevents outer dark gray double-border) */
+:is(html, body).ct-theme-active :is(
+  .item-group-container,
+  #context_modules,
+  .context_modules,
+  .modules-container
+) {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Single unified module card container */
+:is(html, body).ct-theme-active.ct-opt-content .context_module,
+:is(html, body).ct-theme-active[data-ct-content="true"] .context_module,
+:is(html, body).ct-theme-active.ct-opt-content .item-group-condensed:not(.context_module *),
+:is(html, body).ct-theme-active[data-ct-content="true"] .item-group-condensed:not(.context_module *) {
+  background-color: var(--ct-mantle) !important;
+  border: 1px solid var(--ct-surface0) !important;
+  border-radius: 8px !important;
+  margin-bottom: 18px !important;
+  overflow: hidden !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Strip out ALL nested and child borders (eliminates sharp non-rounded white borders) */
+:is(html, body).ct-theme-active :is(.context_module, .item-group-condensed) :is(
+  .content,
+  .ig-list,
+  ul.ig-list,
+  .item-group-expandable,
+  .context_module_items,
+  .collapse,
+  .collapsing,
+  .expandable_content,
+  div[class*="content"]
+) {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* Module Header Bar */
+:is(html, body).ct-theme-active.ct-opt-content :is(.context_module .header, .ig-header),
+:is(html, body).ct-theme-active[data-ct-content="true"] :is(.context_module .header, .ig-header) {
+  background-color: var(--ct-crust) !important;
+  background: var(--ct-crust) !important;
+  border: none !important;
+  border-bottom: 1px solid var(--ct-surface0) !important;
+  padding: 10px 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  box-sizing: border-box !important;
+}
+
+:is(html, body).ct-theme-active :is(
+  .context_module .header .name,
+  .ig-header .name,
+  .ig-header-title,
+  .context_module .header a,
+  .collapse_module_link
+) {
+  color: var(--ct-text) !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  text-decoration: none !important;
+}
+
+:is(html, body).ct-theme-active :is(
+  .context_module .header .name:hover,
+  .ig-header .name:hover,
+  .collapse_module_link:hover
+) {
+  color: var(--ct-blue) !important;
+}
+
+:is(html, body).ct-theme-active :is(.context_module .header svg, .ig-header svg, .collapse_module_link svg, .context_module .header i) {
+  fill: var(--ct-blue) !important;
+  color: var(--ct-blue) !important;
+}
+
+/* Module Row Items */
+:is(html, body).ct-theme-active.ct-opt-content :is(.ig-row, .context_module_item, .module-item, li.context_module_item),
+:is(html, body).ct-theme-active[data-ct-content="true"] :is(.ig-row, .context_module_item, .module-item, li.context_module_item) {
+  background-color: var(--ct-mantle) !important;
+  color: var(--ct-text) !important;
+  border: none !important;
+  border-bottom: 1px solid var(--ct-surface0) !important;
+  padding: 12px 16px !important;
+  transition: background-color 0.15s ease;
+  box-sizing: border-box !important;
+}
+
+:is(html, body).ct-theme-active.ct-opt-content :is(.ig-row, .context_module_item, .module-item, li.context_module_item):last-child,
+:is(html, body).ct-theme-active[data-ct-content="true"] :is(.ig-row, .context_module_item, .module-item, li.context_module_item):last-child {
+  border-bottom: none !important;
+}
+
+:is(html, body).ct-theme-active.ct-opt-content :is(.ig-row:hover, .context_module_item:hover, .module-item:hover, li.context_module_item:hover),
+:is(html, body).ct-theme-active[data-ct-content="true"] :is(.ig-row:hover, .context_module_item:hover, .module-item:hover, li.context_module_item:hover) {
+  background-color: var(--ct-surface0) !important;
+}
+
+:is(html, body).ct-theme-active.ct-opt-content :is(.ig-title, .ig-title a, .module-item-title, .context_module_item a),
+:is(html, body).ct-theme-active[data-ct-content="true"] :is(.ig-title, .ig-title a, .module-item-title, .context_module_item a) {
+  color: var(--ct-blue) !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+}
+
+:is(html, body).ct-theme-active.ct-opt-content :is(.ig-title a:hover, .context_module_item a:hover),
+:is(html, body).ct-theme-active[data-ct-content="true"] :is(.ig-title a:hover, .context_module_item a:hover) {
+  color: var(--ct-yellow) !important;
+}
+
+:is(html, body).ct-theme-active.ct-opt-content :is(.ig-details, .module-item-status, .type_details),
+:is(html, body).ct-theme-active[data-ct-content="true"] :is(.ig-details, .module-item-status, .type_details) {
+  color: var(--ct-subtext0) !important;
+}
+
+:is(html, body).ct-theme-active :is(.ig-type-icon, .ig-row svg, .context_module_item svg) {
+  color: var(--ct-subtext0) !important;
+  fill: var(--ct-subtext0) !important;
+}
+
+/* Tables */
+:is(html, body).ct-theme-active.ct-opt-content :is(table, .table),
+:is(html, body).ct-theme-active[data-ct-content="true"] :is(table, .table) {
+  background-color: var(--ct-mantle) !important;
+  color: var(--ct-text) !important;
+  border-collapse: collapse !important;
+}
+:is(html, body).ct-theme-active.ct-opt-content :is(table th, .table th),
+:is(html, body).ct-theme-active[data-ct-content="true"] :is(table th, .table th) {
+  background-color: var(--ct-crust) !important;
+  color: var(--ct-mauve) !important;
+  border: 1px solid var(--ct-surface0) !important;
+}
+:is(html, body).ct-theme-active.ct-opt-content :is(table td, .table td),
+:is(html, body).ct-theme-active[data-ct-content="true"] :is(table td, .table td) {
+  border: 1px solid var(--ct-surface0) !important;
+  color: var(--ct-text) !important;
+}
+
+/* Discussion / Announcement Posts */
+:is(html, body).ct-theme-active.ct-opt-content :is(.discussion-topic, .discussion_entry, .entry, .discussion-reply-box),
+:is(html, body).ct-theme-active[data-ct-content="true"] :is(.discussion-topic, .discussion_entry, .entry, .discussion-reply-box) {
+  background-color: var(--ct-mantle) !important;
+  border: 1px solid var(--ct-surface0) !important;
+  border-radius: 8px !important;
+  color: var(--ct-text) !important;
+}
+
+/* Rich Content Pages */
+:is(html, body).ct-theme-active.ct-opt-content :is(.user_content, .show-content, .wiki_page, .pages),
+:is(html, body).ct-theme-active[data-ct-content="true"] :is(.user_content, .show-content, .wiki_page, .pages) {
+  background-color: var(--ct-base) !important;
+  color: var(--ct-text) !important;
+}
